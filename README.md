@@ -10,7 +10,7 @@ For example, the string: ```"Jeniffer,asl,24, female, Nairobi\\,Kenya"``` become
 Note:
 - ```24``` was accurately detected as a number and type-cased accurately.
 - ```" female"``` was not trimmed so all white space is respected
-- The comma in ```"Nairobi,Kenya"``` needed to be escaped or else it would be read as wto separate values. 
+- The comma in ```"Nairobi,Kenya"``` needed to be escaped. This is because, when using "," as the separation character, then **Nairobi** and **Kenya** would be split to two strings. 
 
 ## Possible Use Cases
 
@@ -51,6 +51,17 @@ const args = stringVars(query, '|')
 console.log(args);
 
 // [ 'Jeniffer', 'asl', 24, ' female', ' Nairobi,Kenya' ] 
+```
+
+## Organize values into blocks of arrays
+You can group values into arrays by encapsulating them with square brackets. 
+
+```javascript
+const stringVars = require('stringvars');
+const query =  "a,b,[1,2,453.55],f"
+const args = stringVars(query)
+console.log(args);
+// [ 'a', 'b', [ 1, 2, 453.55 ], 'f' ]
 ```
 
 Simple as that!

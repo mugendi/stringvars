@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const split = require('split-string');
+
 function JSON_Parse(v) {
 	let val;
 
 	try {
 		val = JSON.parse(`{"v":${v}}`).v;
-	} catch (error) {
-	}
-
+	} catch (error) {}
 
 	return val;
 }
@@ -40,27 +40,9 @@ function parse(query, sepChar = ',') {
 		throw new Error(`sepChar should be a single character`);
 	}
 
-	let replaceChar = '«øæø»',
-		replacePat = new RegExp(replaceChar, 'g');
-
-	// set sepChar
-	sepChar = sepChar.length == 1 ? sepChar : ',';
-	let sepPat = new RegExp('\\\\\\' + sepChar),
-		val;
-
-	// replace escaped pipes
-	let queryArr = query
-		// avoid escaped separation chars
-		.replace(sepPat, replaceChar)
-		// split to array
-		.split(sepChar)
-		.map((v) => {
-			// console.log({v});
-			// replace back replacementChars
-			v = v.replace(replacePat, sepChar);
-
+	let splitArr = split(query, { brackets: { '[': ']' }, separator: sepChar }),
+		queryArr = splitArr.map((v) => {
 			// Now try to convert each to expected datatype using JSON.parse
-
 			// attempt to parse any non string values
 			val = JSON_Parse(v);
 
@@ -73,9 +55,19 @@ function parse(query, sepChar = ',') {
 				}
 			}
 
+			// Handle one level of nesting
+			if (typeof val == 'string') {
+				let m = val.match(/^\[([^\]]+)\]$/);
+
+				if (m) {
+					val = parse(m[1], ',');
+				}
+			}
+
 			return val;
 		});
 
+	// console.log(queryArr);
 	return queryArr;
 }
 
