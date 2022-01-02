@@ -1,0 +1,28 @@
+{
+  "name": "stringvars",
+  "version": "1.0.0",
+  "description": "Pass variables as a human readable string and accurately read back the string converting all values to their respective datatypes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "string",
+    "serialization",
+    "datatype",
+    "types",
+    "json",
+    "variables",
+    "arguments"
+  ],
+  "author": "Anthony Mugendi <ngurumugz@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mugendi/stringvars.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mugendi/stringvars/issues"
+  },
+  "homepage": "https://github.com/mugendi/stringvars#readme"
+}
